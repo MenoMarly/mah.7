@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>IA Mah7</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #121212;
+    color: #eee;
+    margin: 0; padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  header {
+    background: #1f1f1f;
+    padding: 1rem;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  #chat {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    background: #222;
+  }
+  .msg {
+    margin-bottom: 1rem;
+  }
+  .msg.user {
+    text-align: right;
+    color: #9fef00;
+  }
+  .msg.ia {
+    text-align: left;
+    color: #00d4ff;
+  }
+  #inputArea {
+    display: flex;
+    padding: 0.5rem;
+    background: #1f1f1f;
+  }
+  #inputArea input[type="text"] {
+    flex: 1;
+    padding: 0.7rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px 0 0 5px;
+  }
+  #inputArea button {
+    background: #9fef00;
+    border: none;
+    padding: 0 1.2rem;
+    font-weight: bold;
+    color: #121212;
+    cursor: pointer;
+    border-radius: 0 5px 5px 0;
+    transition: background 0.3s ease;
+  }
+  #inputArea button:hover {
+    background: #7ecc00;
+  }
+</style>
+</head>
+<body>
+<header>IA Mah7</header>
+<div id="chat"></div>
+<div id="inputArea">
+  <input id="input" type="text" placeholder="Digite sua pergunta..." autocomplete="off" />
+  <button id="sendBtn">Enviar</button>
+</div>
+
+<script>
+  const chat = document.getElementById('chat');
+  const input = document.getElementById('input');
+  const sendBtn = document.getElementById('sendBtn');
+
+  function appendMessage(text, sender) {
+    const msgDiv = document.createElement('div');
+    msgDiv.classList.add('msg', sender);
+    msgDiv.textContent = text;
+    chat.appendChild(msgDiv);
+    chat.scrollTop = chat.scrollHeight;
+  }
+
+  function getResponse(message) {
+    const msg = message.toLowerCase().trim();
+    // Respostas simples simulando IA
+    if (msg.includes('olá') || msg.includes('oi')) {
+      return 'Olá! Como posso ajudar você hoje?';
+    } else if (msg.includes('como você está')) {
+      return 'Estou ótimo, obrigado por perguntar!';
+    } else if (msg.includes('qual seu nome')) {
+      return 'Meu nome é Mah7, sua assistente virtual!';
+    } else if (msg.includes('tempo') || msg.includes('clima')) {
+      return 'Desculpe, ainda não consigo acessar dados do clima.';
+    } else if (msg.includes('ajuda')) {
+      return 'Claro! Pergunte qualquer coisa que eu tentarei ajudar.';
+    } else if (msg === '') {
+      return 'Por favor, escreva algo.';
+    } else {
+      return 'Desculpe, não entendi. Pode tentar reformular?';
+    }
+  }
+
+  function sendMessage() {
+    const message = input.value;
+    if (!message.trim()) return;
+    appendMessage(message, 'user');
+    input.value = '';
+    setTimeout(() => {
+      const response = getResponse(message);
+      appendMessage(response, 'ia');
+    }, 600);
+  }
+
+  sendBtn.addEventListener('click', sendMessage);
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') sendMessage();
+  });
+</script>
+</body>
+</html>
